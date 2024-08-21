@@ -13,7 +13,7 @@ public class TelefonoUsuario {
     private Long numId;
     @Id
     private String telefono;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_num_id")
     private Usuario usuario;
 

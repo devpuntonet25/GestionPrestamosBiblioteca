@@ -3,6 +3,7 @@ package com.sistema.biblioteca.entity.dto;
 import com.sistema.biblioteca.entity.Prestamo;
 import com.sistema.biblioteca.entity.TelefonoUsuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDTO {
@@ -11,7 +12,7 @@ public class UsuarioDTO {
     private String direccion;
     private String nombreUsuario;
     private List<Prestamo> prestamoslist;
-    private List<TelefonoUsuario> telefonosUsuariosList;
+    private List<TelefonoUsuarioDTO> telefonosUsuariosList = new ArrayList<>();
 
     public Long getNumId() {
         return numId;
@@ -53,11 +54,15 @@ public class UsuarioDTO {
         this.prestamoslist = prestamoslist;
     }
 
-    public List<TelefonoUsuario> getTelefonosUsuariosList() {
+    public List<TelefonoUsuarioDTO> getTelefonosUsuariosList() {
         return telefonosUsuariosList;
     }
 
-    public void setTelefonosUsuariosList(List<TelefonoUsuario> telefonosUsuariosList) {
+    public void setTelefonosUsuariosList(List<TelefonoUsuarioDTO> telefonosUsuariosList) {
         this.telefonosUsuariosList = telefonosUsuariosList;
+    }
+
+    public void addTelefonoUsuarioDTO(TelefonoUsuarioDTO telefonoUsuarioDTO) {
+        telefonosUsuariosList.add(telefonoUsuarioDTO);
     }
 }
