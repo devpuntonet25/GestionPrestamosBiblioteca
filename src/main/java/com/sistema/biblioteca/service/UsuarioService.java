@@ -1,5 +1,6 @@
 package com.sistema.biblioteca.service;
 
+import com.sistema.biblioteca.entity.Prestamo;
 import com.sistema.biblioteca.entity.TelefonoUsuario;
 import com.sistema.biblioteca.entity.Usuario;
 import com.sistema.biblioteca.entity.dto.TelefonoUsuarioDTO;
@@ -27,7 +28,14 @@ public class UsuarioService {
             usuarioDTO.setNombre(u.getNombre());
             usuarioDTO.setDireccion(u.getDireccion());
             usuarioDTO.setNombreUsuario(u.getNombreUsuario());
-            usuarioDTO.setPrestamoslist(u.getPrestamoslist());
+
+            //We need to take every User off from every Loan
+            List<Prestamo> prestamoList = new ArrayList<>();
+            for (Prestamo p : u.getPrestamoslist()) {
+                p.setUsuario(null);
+                prestamoList.add(p);
+            }
+            usuarioDTO.setPrestamoslist(prestamoList);
             //This avoids to show a list of json objects with no end because of the User field
             for (TelefonoUsuario telefonoUsuario : u.getTelefonosUsuariosList()) {
                 usuarioDTO.addTelefonoUsuarioDTO(
