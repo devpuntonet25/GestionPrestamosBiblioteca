@@ -1,5 +1,6 @@
 package com.sistema.biblioteca.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,7 +23,13 @@ public class Prestamo {
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "factura_id", referencedColumnName = "factura_id")
     private Factura factura;
-    @ManyToMany(mappedBy = "prestamosList")
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tbl_libro_prestamo",
+            joinColumns = @JoinColumn(name = "prestamo_id"),
+            inverseJoinColumns = @JoinColumn(name = "libro_isbn")
+    )
+    //@JsonBackReference//This avoids infinite recursion
     private List<Libro> librosList;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})

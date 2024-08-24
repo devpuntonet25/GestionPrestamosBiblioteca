@@ -1,11 +1,14 @@
 package com.sistema.biblioteca.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@JsonIgnoreProperties({"prestamosList"})
+
 @Entity
 @Table(name = "tbl_libro")
 public class Libro {
@@ -28,8 +31,10 @@ public class Libro {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id", referencedColumnName = "autor_id")
     private Autor autor;
-    @ManyToMany()
-    private List<Prestamo> prestamosList;
+    @ManyToMany(mappedBy = "librosList", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //@JsonManagedReference//This avoids infinite recursion
+    @JsonIgnore
+    private List<Prestamo> prestamosList = new ArrayList<>();
 
     public List<Prestamo> getPrestamosList() {
         return prestamosList;
