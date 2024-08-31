@@ -33,4 +33,17 @@ public class LibroController {
     public List<Libro> getAllLibrosWhichTitleContainsAndAreAvailable(@PathVariable String palabraClave) {
         return libroService.getAllLibrosWhichTitleContainsAndAreAvailable(palabraClave);
     }
+
+    //It allows to get all libros and sorted in ASC or DESC order, and through one of the following attributes: titulo, categoria, valorAlquiler
+    @GetMapping("/getAllLibrosSortedBy")
+    public List<Libro> getAllLibrosSortedBy(@RequestParam String orden, @RequestParam String campo) {
+        return libroService.getAllLibrosSortedBy(orden, campo);
+    }
+
+    //This help us on returning back a list of books limited by a number of rows and the page we want the books for
+    //(It is basically the pagination for the Libros table)
+    @GetMapping("/pagination")
+    public List<Libro> getAllLibrosLimited(@RequestParam Integer pagina, @RequestParam Integer cantidadRegistros) {
+       return libroService.getLimitedLibros(pagina, cantidadRegistros);
+    }
 }
