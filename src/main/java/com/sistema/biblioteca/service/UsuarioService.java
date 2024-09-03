@@ -7,6 +7,7 @@ import com.sistema.biblioteca.entity.dto.TelefonoUsuarioDTO;
 import com.sistema.biblioteca.entity.dto.UsuarioDTO;
 import com.sistema.biblioteca.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,9 +16,11 @@ import java.util.List;
 @Service
 public class UsuarioService {
     private UsuarioRepository usuarioRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
     public List<UsuarioDTO> getAll() {
         List<Usuario> usuarios = usuarioRepository.findAll();
@@ -52,7 +55,15 @@ public class UsuarioService {
         usuario.getTelefonosUsuariosList().forEach(telefonoUsuario -> {
             telefonoUsuario.setUsuario(usuario);
         });
+
+       //This encodes the raw password the user wants to save
+       String encodedPassword = bCryptPasswordEncoder.encode(usuario.getClave());
+       usuario.setClave(encodedPassword);
+
+       //Then we can save the User with his encoded password
        Usuario u = usuarioRepository.save(usuario);
+
+       //And we build our DTO so we do not return confidential information
        UsuarioDTO usuarioDTO = new UsuarioDTO();
        usuarioDTO.setNumId(u.getNumId());
        usuarioDTO.setNombre(u.getNombre());

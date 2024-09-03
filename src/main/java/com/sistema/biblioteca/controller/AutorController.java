@@ -17,9 +17,15 @@ public class AutorController {
         this.autorService = autorService;
     }
 
-    //Saves an autor
+    //Saves an author
     @PostMapping("/save")
     public Autor save(@RequestBody Autor autor) {
+        return autorService.save(autor);
+    }
+
+    //Updates and author
+    @PutMapping("/update")
+    public Autor update(@RequestBody Autor autor) {
         return autorService.save(autor);
     }
 

@@ -22,6 +22,11 @@ public class LibroController {
         return libroService.save(libro);
     }
 
+    @PutMapping("/update")
+    public Libro update(@RequestBody Libro libro) {
+        return libroService.save(libro);
+    }
+
     /*Este endpoint permite obtener una lista de libros de los cuales el titulo contenga alguna palabra clave*/
     @GetMapping("/titleContains/{palabraClave}")
     public List<Libro> getAllLibrosWhichTitleContains(@PathVariable String palabraClave) {
